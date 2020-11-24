@@ -1,0 +1,158 @@
+.end {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+
+body {
+    margin:20px;
+    font-family: 'Roboto';
+}
+
+body.test {  
+    overflow: hidden;   
+}
+
+#em {
+    overflow: hidden;
+    width: calc(100% + 17px);
+    height:100%;
+}
+
+a:link {
+    text-decoration:none;
+    color:rgb(43, 92, 171);
+}
+
+a:visited {
+    color:rgb(43, 92, 171);
+}
+
+a:link.logout {
+    font-size:20px;
+    font-weight: 600;
+} 
+
+.panel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table {
+    border:1px solid lightgray;
+    width:100%;
+    font-family: 'Roboto';
+    font-size:16px;
+    margin-bottom:20px;
+}
+
+.panel-heading {
+    background-color: lightgray;
+    font-weight: 600;
+    font-size: 20px;
+    height:40px;
+    text-align: center;
+    padding-top:20px;
+    color:rgb(43, 92, 171);
+}
+
+.loginContainer {
+    margin-top:50px;
+}
+
+.panel-heading.normal {
+    font-weight: 500;
+}
+
+.panel-body {
+    padding:10px;
+}
+
+.panel-body div {
+    margin-bottom: 10px;
+}
+
+input[type='submit'] {
+    color:rgb(43, 92, 171);
+    height:30px;
+    padding:5px;
+    font-size:16px;
+    border:1px solid #80808069;
+}
+
+div.title {
+    color:rgb(43, 92, 171);
+    font-weight: 600;
+    font-size:25px;
+    margin-bottom: 30px;
+}
+
+li {
+    margin-bottom:10px;
+}
+
+.panel img {
+    width: 240px;
+}
+
+form {
+    margin-top:20px;
+}
+
+.msg {
+    margin-top:30px;
+    font-size:24px;
+}
+
+.logout {
+    margin-top:30px;
+    margin-bottom: 8px;
+    font-size: 24px;
+    font-weight: 600;
+}
+@media only screen and (max-width: 600px) {
+    div.title {
+        color:rgb(43, 92, 171);
+        font-weight: 600;
+        font-size:20px;
+        margin-bottom: 20px;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .panel img {
+        width: auto;
+    }
+    a:link.logout {
+        font-size:20px;
+        font-weight: 600;
+    } 
+
+    .table {
+        border:1px solid lightgray;
+        width:70%;
+        font-family: 'Roboto';
+        font-size:18px;
+        margin-bottom:30px;
+    }
+    .panel-heading {
+        font-size: 24px;
+    }
+    div.title {
+        font-size:30px;
+        margin-bottom: 30px;
+    }
+
+    .panel-body div {
+        height:50px;
+        margin-bottom: 5px;
+    }
+}

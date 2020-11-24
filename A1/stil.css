@@ -1,0 +1,16 @@
+div.ex{
+    border: 1px solid gray;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+body {
+    margin: 20px;
+}
+
+
+img{
+    max-height:250px;
+    height:auto;
+    width:auto;
+}

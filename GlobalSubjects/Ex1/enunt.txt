@@ -1,0 +1,1 @@
+Sa se construiasca o gramatica (de un tip cat mai mare) care sa genereze limbajul:
