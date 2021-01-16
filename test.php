@@ -1,10 +1,20 @@
 <?php
 include('lib.php');
 
-echo "<h1>Your download will start</h1>";
+
 if (isset($_POST["email"])) {
    $email = $_POST["email"];
    $gr = isset($_POST["grupa"]) ? $_POST["grupa"] : null;
+  
+   $info = findStudentInfo($email);
+   $canParticipate = canParticipateTestSem($info);
+   $canStart = canStart($gr);
+   $file = getFileForStudent($email);  
+   if (!$file || !$canStart || !$canParticipate) {
+      echo("Nu poti participa la test:{$email}");
+      exit;
+   }
+
    if (isset($_POST["open"])) {
       openPdf($email, $gr);
    } else {

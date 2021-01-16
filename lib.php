@@ -563,6 +563,7 @@ function startTest($start, $part) {
    } else {
       $file = fopen($startFile,"a");
    }
+   echo ("STARTED TEST [{$file}]?");
 }
 
 function isTestStarted($part) {
@@ -647,8 +648,8 @@ function getFileForStudent($email)
    $result = null;
 
    foreach($students as $studentInfo) {
-      $emailS =  $studentInfo[6];
-      if ($emailS == $email) {
+      $emailS =  trim($studentInfo[6]);
+      if (strcasecmp($emailS,$email)==0) {
          $result = $studentInfo[5];
          if (!file_exists($result)) {
             return null;
@@ -667,8 +668,8 @@ function findStudent($email, $findName) {
 
    //["Nume Student", "email", "grupa cu care vine la seminar", "voi participa la" "cod"];
    while($studentInfo = fgetcsv($file, 1000, ',')) {
-      $emailS =  $studentInfo[1];
-      if ($emailS == $email) {
+      $emailS =  trim($studentInfo[1]);
+      if (strcasecmp($emailS,$email) == 0) {
          $result = $findName ? $studentInfo[0] : $studentInfo[2];
          break;
       } 

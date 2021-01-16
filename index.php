@@ -91,11 +91,13 @@ if(!isset($_SESSION['access_token']))
          </form>
         <?php } ?>    
       <?php if(isMobile()){ ?>
-      <form action="testLFAC.php" method="post">
+      <form action="test.php" method="post">
          <input type = "hidden" name="email" id="email" value="<?php echo $_SESSION['user_email_address'] ?>" >
          <input type = "hidden" name="open" id="open" value="open" >
          <input type = "hidden" name="grupa" id = "grupa" value="<?php echo $grupa ?>">
-         <input type="submit" value="Get test now ">
+	<?php if(canStart($grupa)) { ?>
+         <input type="submit" value="Get the test now ">
+	<?php } ?>
       </form>
       <?php } else { ?>
       <form action="testLFAC.php" method="post" style="<?php echo getStyle() ?>">
