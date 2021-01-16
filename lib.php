@@ -3,6 +3,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 $studentsCsv = 'students.csv';
 $asignariAll = 'asignariAll.csv';
+$asignariPdf = 'asignariPDF.csv';
+//$asignariTS1 = 'asignariTS1.csv';
+//$asignariTS2 = 'asignariTS2.csv';
 $idxPath = 'GlobalSubjects/index.html';
 $startFile1 = "on1.txt";
 $startFile2 = "on2.txt";
@@ -271,6 +274,19 @@ function generateNamedSubjects($dir, $csv_filename)
    //move csv in dir?
 }
 
+function renameFiles($dir) {
+  
+   $files = array_values(array_diff( scandir($dir), array(".", "..", "index.html")));
+   $uuid = uniqid();
+   $re = '/([^@]+@gmail\.com).+/';
+   $replace = '$1_'.$uuid.'.pdf';
+   foreach($files as $fileName) {
+      $name = preg_replace($re, $replace, $fileName);
+      echo "new name: {$name} <br>";
+      rename("{$dir}/{$fileName}","{$dir}/{$name}");
+   }
+}
+
 function generateSubjects($dir, $nr, $randomOrder)
 {
    if (!is_dir($dir)){
@@ -409,7 +425,8 @@ function assignPdfs($dir, $csv_filename, $generateNamedFile) {
          $files[] = $file;
       }
    }
-  
+   echo("<br>files<br>");
+   print_r($files);
    //copy($csv_filename, $dir.'/'.$csv_filename); ? todo?
    $file = fopen( $csv_filename,"r");
   
@@ -418,7 +435,7 @@ function assignPdfs($dir, $csv_filename, $generateNamedFile) {
 
    while($studentInfo = fgetcsv($file, 1000, ',')) {
       //student info in cvs: nume, email, grupa 
-      if ($studentInfo[2] == $dir || $dir == "all") {
+      if ($studentInfo[2] == $dir || $dir == "all" || $dir == "TS1" || $dir == "TS2") {
          $num = count($studentInfo);
          $name = str_replace(" ","_",$studentInfo[0]);
          $email = $studentInfo[1];
@@ -434,7 +451,7 @@ function assignPdfs($dir, $csv_filename, $generateNamedFile) {
               echo("<br>copy!$fileName to $filePath<br>");
               copy($filePath,$destPath);
          }
-         $list[] = [$name,getUrl($destPath), getMagicUrl($uuid,$dir), $destPath, $uuid, $filePath,$email,$dir]; //link to destPath 
+         $list[] = [$name,getUrl($destPath), getMagicUrl($uuid,$dir), $destPath, $uuid, $filePath,$email,$studentInfo[2]]; //link to destPath 
       }
    }
    //chmod($dir, 0644); //read write for owner, read for anyboady ele
@@ -446,7 +463,9 @@ function assignPdfs($dir, $csv_filename, $generateNamedFile) {
 }
 
 function generateOutputFile($dir, $map) {
-   $filePath = "$dir/asignariPDF.csv";
+   global $asignariPDF;
+   $filePath = "{$dir}/asignariPDF.csv";
+   echo("<br>generateOutputFile:".$filePath);
    $fp = fopen($filePath, "w");
    foreach ($map as $fields) { 
       fputcsv($fp, $fields); 
@@ -553,6 +572,20 @@ function canStart($grupa) {
    return isTestStarted($part);
 }
 
+function canStartEx($grupa, $test) {
+   $start = true;
+   global $startFile;
+   $grupe2 = array("E2","E3","A3","A4","B2","B3","B4","B5");
+   $part = in_array($grupa,$grupe2) ? "2" : "1";
+   return isExStarted($test, $part);
+}
+
+function isExStarted($test, $part) {
+   $startFile = "on".$test."_".$part.".txt";
+   $on = file_get_contents($startFile);
+   return $on === "on";
+}
+
 function startTest($start, $part) {
    $startFile = "on".$part.".txt";
    chmod(getcwd(),0757);
@@ -562,6 +595,15 @@ function startTest($start, $part) {
       }
    } else {
       $file = fopen($startFile,"a");
+   }
+}
+
+function  startEx($start, $test, $part) {
+   $startFile = "on".$test."_".$part.".txt";
+   if ($start) {
+      file_put_contents($startFile,"on");
+   } else {
+      file_put_contents($startFile,"off");
    }
 }
 
@@ -641,14 +683,22 @@ function getFileForStudentV1($email)
    return $result;
 }
 
-function getFileForStudent($email)
-{
-   $students = getAllAssignsInfo();
-   $result = null;
+function getExamFileForStudent($email,$test) {
+
+   global $asignariPDF;
+   $dir =  $test;
+   $filePath = "{$dir}/asignariPDF.csv";
+   $students = getCsvContent($filePath);
+   return getFileForStudentInArray($email,$students);
+}
+
+function getFileForStudentInArray($email, $students) {
+    //$students -> ["Nume Student",  "Real Link", "Magic Link", "Nume pdf", "Id", "Fisier/Subiect original", "email","grupa"];
+    $result = null;
 
    foreach($students as $studentInfo) {
-      $emailS =  $studentInfo[6];
-      if ($emailS == $email) {
+      $emailS =  trim($studentInfo[6]);
+      if (strcasecmp($email,$emailS)==0) {
          $result = $studentInfo[5];
          if (!file_exists($result)) {
             return null;
@@ -660,6 +710,12 @@ function getFileForStudent($email)
    return $result;
 }
 
+function getFileForStudent($email)
+{
+   $students = getAllAssignsInfo();
+   return getFileForStudentInArray($email,$students);
+}
+
 
 function findStudent($email, $findName) {
    $file = fopen("students.csv","r");
@@ -667,8 +723,8 @@ function findStudent($email, $findName) {
 
    //["Nume Student", "email", "grupa cu care vine la seminar", "voi participa la" "cod"];
    while($studentInfo = fgetcsv($file, 1000, ',')) {
-      $emailS =  $studentInfo[1];
-      if ($emailS == $email) {
+      $emailS =  trim($studentInfo[1]);
+      if (strcasecmp($email,$emailS)==0)  {
          $result = $findName ? $studentInfo[0] : $studentInfo[2];
          break;
       } 
@@ -706,6 +762,10 @@ function canParticipateT1($info) {
 
 function canParticipateT2($info) {
    return (strpos(strval($info[4]),'3') >= 0);
+}
+
+function canParticipateExam($info, $test) {
+   return $test == "TS1" ? canParticipateT1($info) : canParticipateT2($info);
 }
 
 function goToPdf($id,$gr) {
@@ -757,6 +817,15 @@ function openPdf($email,$gr)
    $path = getFileForStudent($email);
    header('Content-Type: application/pdf');
    header('Content-Disposition: inline; filename='.$path);
+   header('Content-Transfer-Encoding: binary');
+   header('Accept-Ranges: bytes');
+   readfile($path);
+}
+
+function openExamPdf($path)
+{
+   header('Content-Type: application/pdf');
+   header('Content-Disposition: inline; filename='.$path); //todo: change this
    header('Content-Transfer-Encoding: binary');
    header('Accept-Ranges: bytes');
    readfile($path);

@@ -67,7 +67,7 @@ if(!isset($_SESSION['access_token']))
  <body>
   <div class="container">
    <br />
-   <div class="title" align="center">Limbaje Formale, Automate si Compilatoare - examen</div>
+   <div class="title" align="center">Limbaje Formale, Automate si Compilatoare - test seminar</div>
    <br />
    <div class="panel">
    <?php if($login_button == '') { $email = $_SESSION['user_email_address']; $info = findStudentInfo($email); if ($info) {$grupa = $info[2]; $nume = $info[0]; $comps = $info[3];} if($info){?>
@@ -81,27 +81,30 @@ if(!isset($_SESSION['access_token']))
        <input type="submit" value="Download test now">
     </form> -->
         <?php if (isAdmin($email)) {?>
-        <form action="manageEx.php" method="post">
+        <form action="testLFAC.php" method="post">
          <input type = "hidden" name="admin" id="admin" value="<?php echo $_SESSION['user_email_address'] ?>" >
-         <input type="submit" name="start1_1" value="Start TS1 tura 1 " />
-         <input type="submit" name="end1_1" value="End TS1 tura 1" />
-         <input type="submit" name="start2_1" value="Start TS2 tura 1" />
-         <input type="submit" name="end2_1" value="End TS2 tura 1" /> <br><br>
-         <input type="submit" name="start1_2" value="Start TS1 tura 2 " />
-         <input type="submit" name="end1_2" value="End TS1 tura 2" />
-         <input type="submit" name="start2_2" value="Start TS2 tura 2" />
-         <input type="submit" name="end2_2" value="End TS2 tura 2" />
+         <input type="submit" name="start1" value="Start test 1 " />
+         <input type="submit" name="end1" value="End test 1" />
+         <input type="submit" name="start2" value="Start test 2" />
+         <input type="submit" name="end2" value="End test 2" />
          </form>
         <?php } ?>    
-     
-      <form action="examen.php" method="post">
+      <?php if(isMobile()){ ?>
+      <form action="test.php" method="post">
          <input type = "hidden" name="email" id="email" value="<?php echo $_SESSION['user_email_address'] ?>" >
          <input type = "hidden" name="open" id="open" value="open" >
          <input type = "hidden" name="grupa" id = "grupa" value="<?php echo $grupa ?>">
-         <input type="submit" name ="TS1" value="TS1">
-         <input type="submit" name ="TS2" value="TS2">
+         <input type="submit" value="Get the test now ">
       </form>
-
+      <?php } else { ?>
+      <form action="testLFAC.php" method="post" style="<?php echo getStyle() ?>">
+         <input type = "hidden" name="email" id="email" value="<?php echo $_SESSION['user_email_address'] ?>" >
+         <input type = "hidden" name="grupa" id = "grupa" value="<?php echo $grupa ?>">
+         <?php if (canStart($grupa)) { ?>
+         <input type="submit" value="Go to test now">
+         <?php }?>
+      </form>
+      <?php } ?> 
    <?php }else { ?>
       <h2>Nu sunteti inregistrat cu acest email! <?php echo ($email)?></h2>
     <?php } ?>
@@ -117,7 +120,7 @@ if(!isset($_SESSION['access_token']))
      <div class="panel-body">
        <ul>
           <li>Vei intra in meetingul afisat pentru grupa: <?php echo $grupa ?></li>
-          <li>Informatii suplimentare privind desfasurarea examenului se gasesc: <a href="https://docs.google.com/document/d/1i2EOxT6liUf9QLUw2Ef2odE8tA5iACrID5KOgmYVAIc/edit?usp=sharing">aici</a></li>
+          <li>Informatii suplimentare privind desfasurarea testului se gasesc: <a href="https://docs.google.com/document/d/1i2EOxT6liUf9QLUw2Ef2odE8tA5iACrID5KOgmYVAIc/edit?usp=sharing">aici</a></li>
        </ul>
      </div>
    </div>

@@ -1,19 +1,23 @@
 <?php
 include('lib.php');
-if (isset($_POST["email"])) {
+if (isset($_POST["email"]) && (isset($_POST["TS1"]) || isset($_POST["TS2"]))) {
    $email = $_POST["email"];
    $gr = isset($_POST["grupa"]) ? $_POST["grupa"] : null;
+   $test = isset($_POST["TS1"]) ? "TS1" : "TS2";
    $info = findStudentInfo($email);
-   $canParticipate = canParticipateTestSem($info);
-   $canStart = canStart($gr);
-   $file = getFileForStudent($email);  
-   if (!$file || !$canStart || !$canParticipate) {
-      echo("Nu poti participa la test:{$email}");
+   $canParticipate = canParticipateExam($info, $test); 
+   //echo("canParticipate:".$canParticipate);
+   $canStart = canStartEx($gr,$test); 
+   //echo("canStart:".$canStart);
+   $file = getExamFileForStudent($email,$test); 
+   if (!$file || !$canStart) {
+      echo("Testul {$test} nu a inceput inca");
       exit;
    }
    if (isset($_POST["open"])) {
       //echo ("open file");
-      openPdf($email, $gr);
+      //openPdf($email, $gr);
+      openExamPdf($file);
    } else {
       //echo ("download file");
       downloadPdf($email, $gr);
