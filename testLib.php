@@ -16,9 +16,9 @@ echo "<br>"; */
 
 echo "<br>";
 echo "<br>";
-//$email = 'otto.captarencu@gmail.com';
-//$nume = findStudent($email, true);
-//echo "found user $nume for email $email";
+// $email = 'narciszzz.razvan@yahoo.com';
+// $nume = findStudent($email, true);
+// echo "found user $nume for email $email";
 
 // $vals = array();
 // $output = array();
@@ -33,7 +33,7 @@ echo "<br>";
 
 //generateSubjectsV2("A1", -1); 
 
-$email = 'alexanoosefu@gmail.com';
+$email = 'narciszzz.razvan@yahoo.com';
 $result = findStudentInfo($email);
 if ($result) {
     echo "<h2>Nume:".$result[0]."</h2>";
@@ -49,9 +49,16 @@ if ($result) {
 } else {
     echo ("not found!");
 }
-
+/*startEx(true,"TS1",1);
+$started = isExStarted("TS1",1);
+echo("<br>Is first exam started:".$started);
+startEx(false,"TS1",1);
+$started = isExStarted("TS1",1);
+echo("<br>Is first exam started:".$started);*/
 
 //assignPdfs("A6", "students.csv", true);
 //generateSubjectsV2("A1", 10);
 //generateFinalAssignCsv();
+
+//renameFiles('E4');
 ?>

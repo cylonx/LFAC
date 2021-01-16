@@ -65,6 +65,11 @@ if(!isset($_SESSION['access_token']))
  <link rel="stylesheet" href ="style.css">
  </head>
  <body>
+ <style>
+ input.rspace {
+   margin-right:20px;
+ }
+ </style>
   <div class="container">
    <br />
    <div class="title" align="center">Limbaje Formale, Automate si Compilatoare - examen</div>
@@ -84,11 +89,11 @@ if(!isset($_SESSION['access_token']))
         <form action="manageEx.php" method="post">
          <input type = "hidden" name="admin" id="admin" value="<?php echo $_SESSION['user_email_address'] ?>" >
          <input type="submit" name="start1_1" value="Start TS1 tura 1 " />
-         <input type="submit" name="end1_1" value="End TS1 tura 1" />
+         <input class = "rspace" type="submit" name="end1_1" value="End TS1 tura 1" />
          <input type="submit" name="start2_1" value="Start TS2 tura 1" />
          <input type="submit" name="end2_1" value="End TS2 tura 1" /> <br><br>
          <input type="submit" name="start1_2" value="Start TS1 tura 2 " />
-         <input type="submit" name="end1_2" value="End TS1 tura 2" />
+         <input class = "rspace" type="submit" name="end1_2" value="End TS1 tura 2" />
          <input type="submit" name="start2_2" value="Start TS2 tura 2" />
          <input type="submit" name="end2_2" value="End TS2 tura 2" />
          </form>
@@ -98,8 +103,8 @@ if(!isset($_SESSION['access_token']))
          <input type = "hidden" name="email" id="email" value="<?php echo $_SESSION['user_email_address'] ?>" >
          <input type = "hidden" name="open" id="open" value="open" >
          <input type = "hidden" name="grupa" id = "grupa" value="<?php echo $grupa ?>">
-         <input type="submit" name ="TS1" value="TS1">
-         <input type="submit" name ="TS2" value="TS2">
+         <input type="submit" name ="TS1" value=" TS1 ">
+         <input type="submit" name ="TS2" value=" TS2 ">
       </form>
 
    <?php }else { ?>
@@ -117,7 +122,7 @@ if(!isset($_SESSION['access_token']))
      <div class="panel-body">
        <ul>
           <li>Vei intra in meetingul afisat pentru grupa: <?php echo $grupa ?></li>
-          <li>Informatii suplimentare privind desfasurarea examenului se gasesc: <a href="https://docs.google.com/document/d/1i2EOxT6liUf9QLUw2Ef2odE8tA5iACrID5KOgmYVAIc/edit?usp=sharing">aici</a></li>
+          <li>Informatii suplimentare privind desfasurarea examenului: <a href="https://docs.google.com/document/d/e/2PACX-1vRblXrkrZgW8Hq8ji9KMTQ5_icGw_1jZ7Yqih3ZQpigN_iWsmEYqB50gD8_q-SGnnWZFOAHlH3IPc6z/pub"> aici</a></li>
        </ul>
      </div>
    </div>

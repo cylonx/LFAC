@@ -567,7 +567,7 @@ function isAdmin($emailS) {
 function canStart($grupa) {
    $start = true;
    global $startFile;
-   $grupe2 = array("E2","E3","A3","A4","B2","B3","B4","B5");
+   $grupe2 = array("E1","E2","E3","E4","A3","A2","B2","B3","B4","B5");
    $part = in_array($grupa,$grupe2) ? "2" : "1";
    return isTestStarted($part);
 }
@@ -575,7 +575,7 @@ function canStart($grupa) {
 function canStartEx($grupa, $test) {
    $start = true;
    global $startFile;
-   $grupe2 = array("E2","E3","A3","A4","B2","B3","B4","B5");
+   $grupe2 = array("E1","E2","E3","E4","A3","A2","B2","B3","B4","B5");
    $part = in_array($grupa,$grupe2) ? "2" : "1";
    return isExStarted($test, $part);
 }

@@ -8,12 +8,12 @@ if (isset($_POST["email"]) && (isset($_POST["TS1"]) || isset($_POST["TS2"]))) {
    $canParticipate = canParticipateExam($info, $test); 
    //echo("canParticipate:".$canParticipate);
    $canStart = canStartEx($gr,$test); 
-   //echo("canStart:".$canStart);
    $file = getExamFileForStudent($email,$test); 
    if (!$file || !$canStart) {
       echo("Testul {$test} nu a inceput inca");
       exit;
    }
+ 
    if (isset($_POST["open"])) {
       //echo ("open file");
       //openPdf($email, $gr);

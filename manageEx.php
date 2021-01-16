@@ -34,7 +34,7 @@
             $part = 2;
         } else if (isset($_POST["end2_2"])) {
             $test = "TS2"; 
-            $start = true;
+            $start = false;
             $part = 2;
         } 
         if ($test != "") {
