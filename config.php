@@ -4,7 +4,7 @@ require_once 'vendor/autoload.php';
 // init configuration
 $clientID = '575445888811-kb6u8ugtu2s9a4115me8hpl4cg95o3k2.apps.googleusercontent.com';
 $clientSecret = 'gkbVBfWHHxm_aKfkMlNjrJyt';
-$redirectUri = 'http://localhost/TestGen/index.php';
+$redirectUri = 'https://lfac.edu.sevenode.org/index.php';
   
 //config.php
 
