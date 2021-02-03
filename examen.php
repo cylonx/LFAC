@@ -6,9 +6,14 @@ if (isset($_POST["email"]) && (isset($_POST["TS1"]) || isset($_POST["TS2"]))) {
    $test = isset($_POST["TS1"]) ? "TS1" : "TS2";
    $info = findStudentInfo($email);
    $canParticipate = canParticipateExam($info, $test); 
-   //echo("canParticipate:".$canParticipate);
-   $canStart = canStartEx($gr,$test); 
+   //echo("canParticipate:".$canParticipate." test:".$test);
+   $canStart = canStartEx($gr,$test,true); 
    $file = getExamFileForStudent($email,$test); 
+ 
+   if (!$canParticipate) {
+      echo("Nu puteti participa la: {$test}");
+      exit;
+   }
    if (!$file || !$canStart) {
       echo("Testul {$test} nu a inceput inca");
       exit;

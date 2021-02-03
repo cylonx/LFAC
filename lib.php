@@ -572,15 +572,18 @@ function canStart($grupa) {
    return isTestStarted($part);
 }
 
-function canStartEx($grupa, $test) {
+function canStartEx($grupa, $test, $restante) {
    $start = true;
    global $startFile;
    $grupe2 = array("E1","E2","E3","E4","A3","A2","B2","B3","B4","B5");
    $part = in_array($grupa,$grupe2) ? "2" : "1";
-   return isExStarted($test, $part);
+   return isExStarted($test, $part, $restante);
 }
 
-function isExStarted($test, $part) {
+function isExStarted($test, $part, $restante) {
+   if ($restante) {
+      $part = 1; //examenul se desfasoara intr-o singura tura
+   }
    $startFile = "on".$test."_".$part.".txt";
    $on = file_get_contents($startFile);
    return $on === "on";
@@ -741,7 +744,7 @@ function findStudentInfo($email) {
    while($studentInfo = fgetcsv($file, 1000, ',')) {
       $i++;
       $emailS =  trim($studentInfo[1]);
-     // echo "<br> $i nume:$studentInfo[0] email:[$emailS]";
+      //echo "<br> $i nume:$studentInfo[0] email:[$emailS]";
       if (strcasecmp($email,$emailS)==0) {
          $result = $studentInfo;
          break;
@@ -753,15 +756,15 @@ function findStudentInfo($email) {
 
 //$info = ["Nume Student", "email", "grupa cu care vine la seminar", "voi participa la" "cod"];
 function canParticipateTestSem($info) {
-   return (strpos(strval($info[4]),'1') >= 0);
+   return (strpos(strval($info[4]),'1') !== false);
 }
 
 function canParticipateT1($info) {
-   return (strpos(strval($info[4]),'2') >= 0);
+   return (strpos(strval($info[4]),'2') !== false);
 }
 
 function canParticipateT2($info) {
-   return (strpos(strval($info[4]),'3') >= 0);
+   return (strpos(strval($info[4]),'3') !== false);
 }
 
 function canParticipateExam($info, $test) {
